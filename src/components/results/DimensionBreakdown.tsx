@@ -37,7 +37,7 @@ export function DimensionBreakdown({ dimensions }: DimensionBreakdownProps) {
         {dimensions.map((d, i) => {
           const color = dimensionColors[d.dimension];
           const icon = dimensionIcons[d.dimension];
-          const percentage = ((d.score - 1) / 3) * 100;
+          const percentage = ((d.score - 1) / 9) * 100;
 
           return (
             <motion.div

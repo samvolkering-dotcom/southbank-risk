@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { useAssessment } from "@/hooks/useAssessment";
-import { questions } from "@/lib/questions";
+import { getRandomisedQuestions } from "@/lib/questions";
 import { calculateResults, encodeResults } from "@/lib/scoring";
 import { ProgressBar } from "./ProgressBar";
 import { ScenarioCards } from "./ScenarioCards";
@@ -20,17 +20,21 @@ export function AssessmentShell() {
   const { currentQuestion, answers, isComplete, setAnswer, nextQuestion, prevQuestion } =
     useAssessment();
 
+  // Randomise questions once per mount (i.e. per assessment session)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const questions = useMemo(() => getRandomisedQuestions(), []);
+
   const q = questions[currentQuestion];
   const hasAnswer = answers[q.id] !== undefined;
 
   // Handle completion
   useEffect(() => {
     if (isComplete) {
-      const result = calculateResults(answers);
+      const result = calculateResults(answers, questions);
       const encoded = encodeResults(result);
       router.push(`/results?r=${encoded}`);
     }
-  }, [isComplete, answers, router]);
+  }, [isComplete, answers, router, questions]);
 
   const handleSelect = useCallback(
     (value: number) => {
@@ -114,14 +118,14 @@ export function AssessmentShell() {
     <div className="min-h-screen flex flex-col bg-grid">
       {/* Progress */}
       <div className="pt-6 pb-4">
-        <ProgressBar current={currentQuestion} answers={answers} />
+        <ProgressBar current={currentQuestion} answers={answers} questions={questions} />
       </div>
 
       {/* Question Area */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 pb-24">
         <AnimatePresence mode="wait">
           <motion.div
-            key={q.id}
+            key={`${q.id}-${q.name}`}
             className="w-full max-w-2xl text-center"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}

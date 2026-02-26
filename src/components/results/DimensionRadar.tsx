@@ -27,7 +27,7 @@ export function DimensionRadar({ dimensions, color }: DimensionRadarProps) {
   const data = dimensions.map((d) => ({
     dimension: d.label.replace("Financial ", "").replace("Behavioural ", "").replace("Risk ", "").replace("Growth ", ""),
     value: animate ? d.score : 0,
-    fullMark: 4,
+    fullMark: 10,
   }));
 
   return (

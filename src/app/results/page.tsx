@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRef, useMemo, useCallback } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
+import { useAssessment } from "@/hooks/useAssessment";
 import { motion } from "motion/react";
 import { decodeResults } from "@/lib/scoring";
 import { getBrand } from "@/lib/brand-config";
@@ -17,8 +18,15 @@ import { Button } from "@/components/ui/Button";
 
 function ResultsContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const shareRef = useRef<HTMLDivElement>(null);
   const brand = getBrand();
+  const resetAssessment = useAssessment((s) => s.reset);
+
+  const handleRetake = useCallback(() => {
+    resetAssessment();
+    router.push("/");
+  }, [resetAssessment, router]);
 
   const result = useMemo(() => {
     const encoded = searchParams.get("r");
@@ -94,9 +102,7 @@ function ResultsContent() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
         >
-          <Link href="/assess">
-            <Button variant="ghost">↻ Retake Assessment</Button>
-          </Link>
+          <Button variant="ghost" onClick={handleRetake}>↻ Retake Assessment</Button>
         </motion.div>
 
         {/* FCA Disclaimer */}

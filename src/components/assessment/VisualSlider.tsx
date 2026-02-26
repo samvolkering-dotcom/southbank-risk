@@ -97,7 +97,7 @@ export function VisualSlider({ config, selected, onSelect }: VisualSliderProps) 
           animate={{ opacity: 1 }}
         >
           <span className="text-xs text-[var(--brand-text-muted)] uppercase tracking-widest">
-            Risk score: {score.toFixed(1)} / 4.0
+            Risk score: {score.toFixed(1)} / 10
           </span>
         </motion.div>
       )}

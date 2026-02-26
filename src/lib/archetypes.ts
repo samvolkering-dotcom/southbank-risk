@@ -4,7 +4,7 @@ export const archetypes: ArchetypeResult[] = [
   {
     id: "guardian",
     name: "The Guardian",
-    scoreRange: [1.0, 1.6],
+    scoreRange: [1.0, 2.5],
     color: "#4682B4",
     emoji: "🛡️",
     headline: "You protect what matters most.",
@@ -26,7 +26,7 @@ export const archetypes: ArchetypeResult[] = [
   {
     id: "steady-builder",
     name: "The Steady Builder",
-    scoreRange: [1.7, 2.2],
+    scoreRange: [2.6, 4.0],
     color: "#2BBAB4",
     emoji: "🧱",
     headline: "Slow and steady builds real wealth.",
@@ -48,7 +48,7 @@ export const archetypes: ArchetypeResult[] = [
   {
     id: "balanced-navigator",
     name: "The Balanced Navigator",
-    scoreRange: [2.3, 2.7],
+    scoreRange: [4.1, 5.5],
     color: "#DAA520",
     emoji: "⚖️",
     headline: "You play both sides of the board.",
@@ -70,7 +70,7 @@ export const archetypes: ArchetypeResult[] = [
   {
     id: "calculated-opportunist",
     name: "The Calculated Opportunist",
-    scoreRange: [2.8, 3.2],
+    scoreRange: [5.6, 7.0],
     color: "#E6960C",
     emoji: "🎯",
     headline: "You see opportunity where others see risk.",
@@ -92,7 +92,7 @@ export const archetypes: ArchetypeResult[] = [
   {
     id: "frontier-explorer",
     name: "The Frontier Explorer",
-    scoreRange: [3.3, 3.6],
+    scoreRange: [7.1, 8.5],
     color: "#E65100",
     emoji: "🧭",
     headline: "You venture where most investors won't.",
@@ -114,7 +114,7 @@ export const archetypes: ArchetypeResult[] = [
   {
     id: "maverick",
     name: "The Maverick",
-    scoreRange: [3.7, 4.0],
+    scoreRange: [8.6, 10.0],
     color: "#DC143C",
     emoji: "🔥",
     headline: "You play to win, and you know the stakes.",
@@ -136,7 +136,7 @@ export const archetypes: ArchetypeResult[] = [
 ];
 
 export function getArchetype(score: number): ArchetypeResult {
-  const clamped = Math.max(1.0, Math.min(4.0, score));
+  const clamped = Math.max(1.0, Math.min(10.0, score));
   for (const arch of archetypes) {
     if (clamped >= arch.scoreRange[0] && clamped <= arch.scoreRange[1]) {
       return arch;

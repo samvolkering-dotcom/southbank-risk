@@ -11,8 +11,8 @@ interface ProfileCardProps {
 export function ProfileCard({ result }: ProfileCardProps) {
   const { archetype, overall } = result;
 
-  // Gauge angle: map 1.0-4.0 to 0-180 degrees
-  const angle = ((overall - 1.0) / 3.0) * 180;
+  // Gauge angle: map 1-10 to 0-180 degrees
+  const angle = ((overall - 1) / 9) * 180;
 
   return (
     <motion.div
@@ -127,7 +127,7 @@ export function ProfileCard({ result }: ProfileCardProps) {
           value={overall}
           className="text-4xl font-bold"
           prefix=""
-          suffix=" / 4.0"
+          suffix=" / 10"
         />
         <p className="text-xs text-[var(--brand-text-muted)] mt-1 uppercase tracking-widest">
           Overall risk score

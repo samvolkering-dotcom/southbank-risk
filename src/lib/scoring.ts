@@ -1,4 +1,4 @@
-import { questions } from "./questions";
+import { getRandomisedQuestions } from "./questions";
 import { getArchetype } from "./archetypes";
 import { AssessmentResult, Dimension, DimensionScore } from "./types";
 
@@ -40,13 +40,17 @@ function getDimensionInsight(dimension: Dimension, score: number): string {
     },
   };
 
-  const level = score <= 2.0 ? "low" : score <= 3.0 ? "mid" : "high";
+  const level = score <= 4 ? "low" : score <= 7 ? "mid" : "high";
   return insights[dimension][level];
 }
 
 export function calculateResults(
-  answers: Record<number, number>
+  answers: Record<number, number>,
+  activeQuestions?: { id: number; dimension: Dimension }[]
 ): AssessmentResult {
+  // Use provided questions or fall back to a fresh set
+  const qs = activeQuestions || getRandomisedQuestions();
+
   // Group scores by dimension
   const dimensionScores: Record<Dimension, number[]> = {
     capacity: [],
@@ -55,7 +59,7 @@ export function calculateResults(
     need: [],
   };
 
-  for (const q of questions) {
+  for (const q of qs) {
     const answer = answers[q.id];
     if (answer !== undefined) {
       dimensionScores[q.dimension].push(answer);
@@ -70,7 +74,7 @@ export function calculateResults(
     const avg =
       scores.length > 0
         ? scores.reduce((a, b) => a + b, 0) / scores.length
-        : 2.5;
+        : 5.5;
     const score = Math.round(avg * 10) / 10;
     return {
       dimension: dim,
@@ -86,22 +90,22 @@ export function calculateResults(
     0
   );
 
-  // Critical rule: overall capped by capacity + 0.5
+  // Critical rule: overall capped by capacity + 1.5
   const capacityScore =
-    dimensions.find((d) => d.dimension === "capacity")?.score ?? 2.5;
-  overall = Math.min(overall, capacityScore + 0.5);
+    dimensions.find((d) => d.dimension === "capacity")?.score ?? 5.5;
+  overall = Math.min(overall, capacityScore + 1.5);
 
   // Composure adjustment: high attitude + low composure nudges down
   const attitudeScore =
-    dimensions.find((d) => d.dimension === "attitude")?.score ?? 2.5;
+    dimensions.find((d) => d.dimension === "attitude")?.score ?? 5.5;
   const composureScore =
-    dimensions.find((d) => d.dimension === "composure")?.score ?? 2.5;
-  if (attitudeScore >= 3.0 && composureScore <= 2.0) {
-    overall = Math.max(1.0, overall - 0.3);
+    dimensions.find((d) => d.dimension === "composure")?.score ?? 5.5;
+  if (attitudeScore >= 7 && composureScore <= 4) {
+    overall = Math.max(1, overall - 0.8);
   }
 
   overall = Math.round(overall * 10) / 10;
-  overall = Math.max(1.0, Math.min(4.0, overall));
+  overall = Math.max(1, Math.min(10, overall));
 
   const archetype = getArchetype(overall);
 

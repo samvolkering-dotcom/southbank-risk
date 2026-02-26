@@ -1,14 +1,15 @@
 "use client";
 
 import { motion } from "motion/react";
-import { questions } from "@/lib/questions";
+import { Question } from "@/lib/types";
 
 interface ProgressBarProps {
   current: number;
   answers: Record<number, number>;
+  questions: Question[];
 }
 
-export function ProgressBar({ current, answers }: ProgressBarProps) {
+export function ProgressBar({ current, answers, questions }: ProgressBarProps) {
   const total = questions.length;
   const answered = Object.keys(answers).length;
 
