@@ -39,7 +39,7 @@ export function Hero() {
           transition={{ delay: 0.2 }}
         >
           <span className="inline-block text-xs uppercase tracking-[0.2em] text-[var(--brand-accent)] font-medium px-4 py-1.5 rounded-full border border-[var(--brand-border)] mb-6">
-            Free Risk Assessment Tool
+            Free Risk Assessment + Bonus Gift
           </span>
         </motion.div>
 
@@ -67,6 +67,26 @@ export function Hero() {
           really think about money.
         </motion.p>
 
+        {/* Bonus gift tease */}
+        <motion.div
+          className="mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.6 }}
+        >
+          <div className="inline-flex items-center gap-3 px-5 py-3 rounded-2xl border border-[var(--brand-accent)] bg-[var(--brand-accent-dim)]">
+            <span className="text-2xl">🎁</span>
+            <div className="text-left">
+              <div className="text-xs uppercase tracking-widest text-[var(--brand-accent)] font-bold">
+                Free Bonus on Completion
+              </div>
+              <div className="text-sm font-semibold text-[var(--brand-text-primary)]">
+                Your copy of <span className="italic">The Road to Financial Freedom</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -79,7 +99,7 @@ export function Hero() {
             </Button>
           </Link>
           <p className="text-xs text-[var(--brand-text-muted)] mt-3">
-            12 interactive questions • No sign-up required • Completely free
+            12 interactive questions • Takes 3 minutes • Completely free
           </p>
         </motion.div>
       </div>

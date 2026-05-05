@@ -14,6 +14,7 @@ import { DimensionRadar } from "@/components/results/DimensionRadar";
 import { DimensionBreakdown } from "@/components/results/DimensionBreakdown";
 import { Insights } from "@/components/results/Insights";
 import { ShareCard } from "@/components/results/ShareCard";
+import { EmailCapture } from "@/components/results/EmailCapture";
 import { Button } from "@/components/ui/Button";
 
 function ResultsContent() {
@@ -68,6 +69,12 @@ function ResultsContent() {
 
         <DimensionBreakdown dimensions={result.dimensions} />
         <Insights archetype={result.archetype} />
+
+        {/* Email capture for free bonus report */}
+        <EmailCapture
+          archetypeName={result.archetype.name}
+          archetypeId={result.archetype.id}
+        />
 
         {/* CTA */}
         <motion.div
