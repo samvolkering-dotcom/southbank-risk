@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Header } from "../components/Header";
 
 export const metadata: Metadata = {
   title: "Risk Assessor | Southbank Investment Research",
@@ -26,7 +27,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased">
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }

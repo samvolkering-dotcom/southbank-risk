@@ -6,32 +6,13 @@ import { Button } from "../ui/Button";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 text-center overflow-hidden">
+    <section className="relative min-h-[85vh] flex flex-col items-center justify-start pt-8 sm:pt-10 px-4 text-center overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 bg-grid opacity-50" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[var(--brand-accent)] opacity-[0.03] blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[var(--brand-accent)] opacity-[0.02] blur-3xl" />
 
       <div className="relative z-10 max-w-2xl mx-auto">
-        {/* Logo */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-        >
-          <div className="inline-flex flex-col items-center gap-1">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4" y="4" width="40" height="40" rx="8" stroke="#D4AF37" strokeWidth="2" fill="none" />
-              <path d="M14 32V20l10-8 10 8v12" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-              <path d="M20 32v-8h8v8" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            </svg>
-            <span className="text-sm font-semibold tracking-wide text-[var(--brand-accent)]">
-              Southbank Investment Research
-            </span>
-          </div>
-        </motion.div>
-
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
