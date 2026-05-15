@@ -2,29 +2,36 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { getCompletionCount } from "@/lib/completions-counter";
 
 export function SocialProof() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    // Simulated counter — in production this would be a real count
-    const target = 12847;
-    const duration = 2000;
-    const steps = 60;
-    const increment = target / steps;
-    let current = 0;
+    let cancelled = false;
+    let timer: ReturnType<typeof setInterval> | undefined;
 
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, duration / steps);
+    getCompletionCount().then((target) => {
+      if (cancelled || target === null || target <= 0) return;
+      const duration = 2000;
+      const steps = 60;
+      const increment = target / steps;
+      let current = 0;
+      timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          setCount(target);
+          if (timer) clearInterval(timer);
+        } else {
+          setCount(Math.floor(current));
+        }
+      }, duration / steps);
+    });
 
-    return () => clearInterval(timer);
+    return () => {
+      cancelled = true;
+      if (timer) clearInterval(timer);
+    };
   }, []);
 
   return (

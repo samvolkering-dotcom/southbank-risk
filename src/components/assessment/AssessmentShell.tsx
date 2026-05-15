@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useAssessment } from "@/hooks/useAssessment";
 import { getRandomisedQuestions } from "@/lib/questions";
 import { calculateResults, encodeResults } from "@/lib/scoring";
+import { recordCompletion } from "@/lib/completions-counter";
 import { ProgressBar } from "./ProgressBar";
 import { ScenarioCards } from "./ScenarioCards";
 import { VisualSlider } from "./VisualSlider";
@@ -30,6 +31,7 @@ export function AssessmentShell() {
   // Handle completion
   useEffect(() => {
     if (isComplete) {
+      void recordCompletion();
       const result = calculateResults(answers, questions);
       const encoded = encodeResults(result);
       router.push(`/results?r=${encoded}`);
