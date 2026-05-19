@@ -21,7 +21,7 @@ const steps = [
     number: "03",
     title: "Discover Your Investor Archetype",
     description:
-      "From Guardian to Maverick, find out which of six investor archetypes matches your unique risk profile — with personalised insights and actionable next steps.",
+      "From Guardian to Maverick, see which of six investor archetypes best describes your risk profile — with general insights and ideas to think about.",
     icon: "🔮",
   },
 ];

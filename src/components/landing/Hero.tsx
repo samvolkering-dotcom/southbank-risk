@@ -68,15 +68,30 @@ export function Hero() {
           </div>
         </motion.div>
 
+        {/* Educational notice — clicking the CTA below acknowledges it */}
+        <motion.div
+          className="mb-5 max-w-xl mx-auto"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.6 }}
+        >
+          <p className="text-xs sm:text-sm text-[var(--brand-text-muted)] leading-relaxed">
+            This tool is <strong className="text-[var(--brand-text-secondary)]">educational and illustrative only</strong>.
+            It is not personal financial advice and should not be relied upon
+            to make investment decisions. By starting the assessment you
+            acknowledge this.
+          </p>
+        </motion.div>
+
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.6 }}
+          transition={{ delay: 0.65, duration: 0.6 }}
         >
           <Link href="/assess">
             <Button variant="primary" size="lg" className="gold-glow text-lg px-10 py-4">
-              Start My Assessment →
+              I Understand — Let&apos;s Go! →
             </Button>
           </Link>
           <p className="text-xs text-[var(--brand-text-muted)] mt-3">

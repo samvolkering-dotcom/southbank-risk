@@ -71,10 +71,7 @@ function ResultsContent() {
         <Insights archetype={result.archetype} />
 
         {/* Email capture for free bonus report */}
-        <EmailCapture
-          archetypeName={result.archetype.name}
-          archetypeId={result.archetype.id}
-        />
+        <EmailCapture archetypeId={result.archetype.id} />
 
         {/* CTA */}
         <motion.div

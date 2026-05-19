@@ -5,15 +5,15 @@ import { motion, AnimatePresence } from "motion/react";
 import { Button } from "../ui/Button";
 
 interface EmailCaptureProps {
-  archetypeName: string;
   archetypeId: string;
 }
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export function EmailCapture({ archetypeName, archetypeId }: EmailCaptureProps) {
+export function EmailCapture({ archetypeId }: EmailCaptureProps) {
   const [email, setEmail] = useState("");
-  const [optIn, setOptIn] = useState(true);
+  // Default OFF — user must actively opt in to marketing material.
+  const [optIn, setOptIn] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -100,7 +100,7 @@ export function EmailCapture({ archetypeName, archetypeId }: EmailCaptureProps) 
                   Where should we send <span className="italic">The Road to Financial Freedom</span>?
                 </h3>
                 <p className="text-sm text-[var(--brand-text-secondary)] mt-2">
-                  Hand-picked by our editors for {archetypeName}s like you.
+                  A practical guide to building wealth on your own terms — yours free.
                 </p>
               </div>
             </div>
@@ -132,10 +132,13 @@ export function EmailCapture({ archetypeName, archetypeId }: EmailCaptureProps) 
                   disabled={status === "submitting"}
                 />
                 <span className="text-sm text-[var(--brand-text-secondary)] leading-relaxed group-hover:text-[var(--brand-text-primary)] transition-colors">
-                  <strong className="text-[var(--brand-text-primary)]">Surprise bonus:</strong>{" "}
-                  Also send me <strong>Investor&apos;s Daily</strong>, Southbank&apos;s
-                  free e-letter on the markets, big ideas, and independent research.
-                  Unsubscribe anytime.
+                  <strong className="text-[var(--brand-text-primary)]">
+                    Yes — please also send me Investor&apos;s Daily,
+                  </strong>{" "}
+                  Southbank&apos;s free e-letter on the markets, big ideas, and
+                  independent research. By ticking this box, I agree to receive
+                  marketing material by email from Southbank Investment
+                  Research. I can unsubscribe at any time.
                 </span>
               </label>
 

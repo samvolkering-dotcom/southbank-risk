@@ -40,9 +40,9 @@ const southbank: BrandConfig = {
     border: "rgba(212, 175, 55, 0.2)",
   },
   cta: {
-    resultsHeadline: "Get Research That Matches Your Profile",
+    resultsHeadline: "Independent Research for Independent Investors",
     resultsBody:
-      "Southbank Investment Research provides independent analysis tailored to every investor type — from cautious income seekers to bold growth hunters.",
+      "Southbank Investment Research provides independent analysis for every kind of investor — from cautious income seekers to bold growth hunters.",
     buttonText: "Explore Our Research",
     buttonUrl: "https://southbankresearch.com",
   },

@@ -287,7 +287,7 @@ const questionPool: QuestionSlot[] = [
           id: "tracker",
           label: "A global tracker fund",
           description:
-            "\"Just put it in a Vanguard fund and forget about it. You'll thank me in 20 years.\"",
+            "\"Just put it in an ETF and forget about it. You'll thank me in 20 years.\"",
           value: 3,
           icon: "🌍",
         },
@@ -651,7 +651,7 @@ const questionPool: QuestionSlot[] = [
       interaction: "visual-slider",
       prompt: "What annual return do you think you need to reach your goals?",
       subtitle:
-        "Cash savings earn ~4-5%. The stock market has historically returned ~8-10% per year.",
+        "Cash savings earn ~4-5%. The stock market has historically returned ~8-10% per year. Returns are variable and not guaranteed.",
       sliderConfig: {
         min: 2,
         max: 20,

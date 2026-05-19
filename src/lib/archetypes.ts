@@ -43,7 +43,7 @@ export const archetypes: ArchetypeResult[] = [
       "Avoid 'lifestyle creep' that reduces your investment contributions",
     ],
     portfolioHint:
-      "A core of global index funds with bond ballast is your sweet spot. Consider a 60/40 or 70/30 equity-to-bond split. Regular monthly contributions into a stocks and shares ISA or SIPP can work wonders over time.",
+      "Consider a sensible split between index funds, bond funds, finding that sweet spot coupled with regular monthly contributions into a stocks and shares ISA or SIPP, which can work wonders over the long term.",
   },
   {
     id: "balanced-navigator",
@@ -65,7 +65,7 @@ export const archetypes: ArchetypeResult[] = [
       "Watch for 'analysis paralysis' when markets send mixed signals",
     ],
     portfolioHint:
-      "A diversified mix of global equities, bonds, and perhaps some property funds suits you well. Consider an 70/30 to 80/20 equity-to-bond split depending on your time horizon. Both active and passive strategies can work for you.",
+      "A diversified mix of equities, bonds, and perhaps some real estate funds may be where you're at. Equities are certainly on the higher risk, higher reward side of things but depending on your time horizon can work for you positively long term. Combining an active strategy with a core passive strategy is right in your wheelhouse.",
   },
   {
     id: "calculated-opportunist",
