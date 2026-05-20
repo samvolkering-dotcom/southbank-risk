@@ -15,26 +15,12 @@ export function BonusGift() {
           <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[var(--brand-accent)] opacity-[0.04] blur-3xl" />
 
           <div className="relative grid sm:grid-cols-[auto_1fr] gap-6 sm:gap-8 items-center">
-            {/* Mock book cover */}
             <div className="mx-auto sm:mx-0">
-              <div className="w-32 sm:w-40 aspect-[3/4] rounded-lg shadow-2xl bg-gradient-to-br from-[#1a1f2e] via-[#0B0F1A] to-[#000] border border-[var(--brand-accent)] p-4 flex flex-col justify-between relative overflow-hidden">
-                <div className="absolute inset-0 bg-grid opacity-30" />
-                <div className="relative">
-                  <div className="text-[8px] uppercase tracking-widest text-[var(--brand-accent)] font-bold mb-2">
-                    Southbank Special Report
-                  </div>
-                  <div className="text-sm sm:text-base font-extrabold text-[var(--brand-text-primary)] leading-tight">
-                    The Road to Financial Freedom
-                  </div>
-                </div>
-                <div className="relative">
-                  <div className="h-px bg-[var(--brand-accent)] opacity-40 mb-2" />
-                  <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="4" y="4" width="40" height="40" rx="8" stroke="#D4AF37" strokeWidth="2" fill="none" />
-                    <path d="M14 32V20l10-8 10 8v12" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  </svg>
-                </div>
-              </div>
+              <img
+                src="/road-to-financial-freedom.png"
+                alt="The Road to Financial Freedom — Southbank Special Report"
+                className="w-40 sm:w-48 h-auto drop-shadow-2xl"
+              />
             </div>
 
             <div>
