@@ -6,7 +6,7 @@ import { Button } from "../ui/Button";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[85vh] flex flex-col items-center justify-start pt-8 sm:pt-10 px-4 text-center overflow-hidden">
+    <section className="relative flex flex-col items-center justify-start pt-8 sm:pt-10 pb-8 sm:pb-12 px-4 text-center overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 bg-grid opacity-50" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[var(--brand-accent)] opacity-[0.03] blur-3xl" />

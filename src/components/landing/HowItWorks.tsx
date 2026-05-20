@@ -28,7 +28,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-20 px-4">
+    <section className="pt-10 pb-20 sm:pt-14 px-4">
       <div className="max-w-3xl mx-auto">
         <motion.h2
           className="text-2xl sm:text-3xl font-bold text-center mb-12 text-[var(--brand-text-primary)]"
