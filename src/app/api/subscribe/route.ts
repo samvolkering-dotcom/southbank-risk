@@ -30,13 +30,13 @@ export async function POST(req: Request) {
 
   try {
     if (provider === "mailchimp") {
-      await sendToMailchimp({ email, optInDaily, archetype, source });
+      await sendToMailchimp({ email, archetype, source });
     } else if (provider === "convertkit") {
-      await sendToConvertKit({ email, optInDaily, archetype, source });
+      await sendToConvertKit({ email, archetype, source });
     } else if (provider === "beehiiv") {
-      await sendToBeehiiv({ email, optInDaily, archetype, source });
+      await sendToBeehiiv({ email, archetype, source });
     } else if (provider === "webhook") {
-      await sendToWebhook({ email, optInDaily, archetype, source });
+      await sendToWebhook({ email, archetype, source });
     } else {
       // No provider configured yet — log so deploys don't lose leads silently.
       console.log("[subscribe] (no provider configured)", {
@@ -55,20 +55,27 @@ export async function POST(req: Request) {
     );
   }
 
+  if (optInDaily) {
+    try {
+      await sendToInvestorsDaily(email);
+    } catch (err) {
+      // Non-fatal: the primary report signup already succeeded.
+      console.error("[subscribe] investors-daily error", err);
+    }
+  }
+
   return NextResponse.json({ ok: true });
 }
 
 interface ProviderArgs {
   email: string;
-  optInDaily: boolean;
   archetype: string;
   source: string;
 }
 
-async function sendToMailchimp({ email, optInDaily, archetype, source }: ProviderArgs) {
+async function sendToMailchimp({ email, archetype, source }: ProviderArgs) {
   const apiKey = process.env.MAILCHIMP_API_KEY;
   const listId = process.env.MAILCHIMP_LIST_ID;
-  const dailyTag = process.env.MAILCHIMP_DAILY_TAG ?? "investors-daily";
   const reportTag = process.env.MAILCHIMP_REPORT_TAG ?? "road-to-financial-freedom";
   if (!apiKey || !listId) throw new Error("Mailchimp env vars missing");
 
@@ -76,7 +83,6 @@ async function sendToMailchimp({ email, optInDaily, archetype, source }: Provide
   const url = `https://${dc}.api.mailchimp.com/3.0/lists/${listId}/members`;
 
   const tags = [reportTag, `archetype-${archetype}`, `source-${source}`];
-  if (optInDaily) tags.push(dailyTag);
 
   const res = await fetch(url, {
     method: "POST",
@@ -98,33 +104,25 @@ async function sendToMailchimp({ email, optInDaily, archetype, source }: Provide
   }
 }
 
-async function sendToConvertKit({ email, optInDaily, archetype, source }: ProviderArgs) {
+async function sendToConvertKit({ email, archetype, source }: ProviderArgs) {
   const apiKey = process.env.CONVERTKIT_API_KEY;
   const reportFormId = process.env.CONVERTKIT_REPORT_FORM_ID;
-  const dailyFormId = process.env.CONVERTKIT_DAILY_FORM_ID;
   if (!apiKey || !reportFormId) throw new Error("ConvertKit env vars missing");
 
-  const formIds = [reportFormId];
-  if (optInDaily && dailyFormId) formIds.push(dailyFormId);
+  const res = await fetch(`https://api.convertkit.com/v3/forms/${reportFormId}/subscribe`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      api_key: apiKey,
+      email,
+      fields: { archetype, source },
+    }),
+  });
 
-  await Promise.all(
-    formIds.map((formId) =>
-      fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          api_key: apiKey,
-          email,
-          fields: { archetype, source },
-        }),
-      }).then(async (r) => {
-        if (!r.ok) throw new Error(`ConvertKit ${r.status}: ${await r.text()}`);
-      })
-    )
-  );
+  if (!res.ok) throw new Error(`ConvertKit ${res.status}: ${await res.text()}`);
 }
 
-async function sendToBeehiiv({ email, optInDaily, archetype, source }: ProviderArgs) {
+async function sendToBeehiiv({ email, archetype, source }: ProviderArgs) {
   const apiKey = process.env.BEEHIIV_API_KEY;
   const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
   if (!apiKey || !publicationId) throw new Error("Beehiiv env vars missing");
@@ -144,7 +142,6 @@ async function sendToBeehiiv({ email, optInDaily, archetype, source }: ProviderA
         utm_source: source,
         custom_fields: [
           { name: "archetype", value: archetype },
-          { name: "investors_daily_optin", value: optInDaily ? "true" : "false" },
         ],
       }),
     }
@@ -164,4 +161,30 @@ async function sendToWebhook(args: ProviderArgs) {
   });
 
   if (!res.ok) throw new Error(`Webhook ${res.status}: ${await res.text()}`);
+}
+
+async function sendToInvestorsDaily(email: string) {
+  const url = process.env.INVESTORS_DAILY_URL
+    ?? "https://subscribe.fortuneandfreedom.com/Content/SaveFreeSignups";
+  const multivariateId = process.env.INVESTORS_DAILY_MULTIVARIATE_ID ?? "2524795";
+
+  const body = new URLSearchParams({
+    MultivariateId: multivariateId,
+    NotSaveSignup: "False",
+    email,
+  });
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
+    redirect: "manual",
+  });
+
+  // The endpoint normally responds with a 302 redirect to a thank-you page.
+  // `redirect: "manual"` surfaces that as an opaque/redirected response,
+  // which we treat as success. Only throw on a genuine error status.
+  if (res.status >= 400) {
+    throw new Error(`InvestorsDaily ${res.status}: ${await res.text().catch(() => "")}`);
+  }
 }

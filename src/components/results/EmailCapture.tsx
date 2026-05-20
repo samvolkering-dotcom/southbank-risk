@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "../ui/Button";
+import { useAssessment } from "@/hooks/useAssessment";
 
 interface EmailCaptureProps {
   archetypeId: string;
@@ -12,16 +13,28 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export function EmailCapture({ archetypeId }: EmailCaptureProps) {
   const [email, setEmail] = useState("");
-  // Default OFF — user must actively opt in to marketing material.
+  // Default OFF — user must actively consent to Investor's Daily to receive the report.
   const [optIn, setOptIn] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
 
+  const emailSubmitted = useAssessment((s) => s.emailSubmitted);
+  const submittedEmail = useAssessment((s) => s.submittedEmail);
+  const markEmailSubmitted = useAssessment((s) => s.markEmailSubmitted);
+
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    if (useAssessment.persist.hasHydrated()) setHydrated(true);
+    const unsub = useAssessment.persist.onFinishHydration(() => setHydrated(true));
+    return unsub;
+  }, []);
+
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const showSuccess = status === "success" || emailSubmitted;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!isValidEmail || status === "submitting") return;
+    if (!isValidEmail || !optIn || status === "submitting") return;
 
     setStatus("submitting");
     setErrorMsg("");
@@ -44,10 +57,20 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
       }
 
       setStatus("success");
+      markEmailSubmitted(email);
     } catch (err) {
       setStatus("error");
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
     }
+  }
+
+  if (!hydrated) {
+    return (
+      <div
+        className="glass-card rounded-3xl p-6 sm:p-8 border-2 border-[var(--brand-accent)] min-h-[300px]"
+        aria-hidden
+      />
+    );
   }
 
   return (
@@ -60,7 +83,7 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
       <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[var(--brand-accent)] opacity-[0.06] blur-3xl" />
 
       <AnimatePresence mode="wait">
-        {status === "success" ? (
+        {showSuccess ? (
           <motion.div
             key="success"
             className="relative text-center py-4"
@@ -74,9 +97,9 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
             </h3>
             <p className="text-[var(--brand-text-secondary)] max-w-md mx-auto">
               Your free copy of <span className="italic">The Road to Financial Freedom</span> is on its way to{" "}
-              <span className="text-[var(--brand-text-primary)] font-semibold">{email}</span>.
+              <span className="text-[var(--brand-text-primary)] font-semibold">{submittedEmail || email}</span>.
             </p>
-            {optIn && (
+            {status === "success" && optIn && (
               <p className="text-sm text-[var(--brand-text-muted)] mt-3">
                 You&apos;re also subscribed to <strong>Investor&apos;s Daily</strong> — your first issue arrives tomorrow morning.
               </p>
@@ -100,7 +123,7 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
                   Where should we send <span className="italic">The Road to Financial Freedom</span>?
                 </h3>
                 <p className="text-sm text-[var(--brand-text-secondary)] mt-2">
-                  A practical guide to building wealth on your own terms — yours free.
+                  A practical guide to building wealth on your own terms. To receive your free copy, sign up to Investor&apos;s Daily below.
                 </p>
               </div>
             </div>
@@ -128,17 +151,18 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
                   type="checkbox"
                   checked={optIn}
                   onChange={(e) => setOptIn(e.target.checked)}
+                  aria-required="true"
                   className="mt-1 w-4 h-4 rounded border-[var(--brand-border)] bg-[var(--brand-bg-card)] text-[var(--brand-accent)] focus:ring-[var(--brand-accent)] focus:ring-offset-[var(--brand-bg-primary)] cursor-pointer"
                   disabled={status === "submitting"}
                 />
                 <span className="text-sm text-[var(--brand-text-secondary)] leading-relaxed group-hover:text-[var(--brand-text-primary)] transition-colors">
                   <strong className="text-[var(--brand-text-primary)]">
-                    Yes — please also send me Investor&apos;s Daily,
+                    Sign me up to Investor&apos;s Daily
                   </strong>{" "}
-                  Southbank&apos;s free e-letter on the markets, big ideas, and
-                  independent research. By ticking this box, I agree to receive
-                  marketing material by email from Southbank Investment
-                  Research. I can unsubscribe at any time.
+                  — Southbank&apos;s free e-letter on the markets, big ideas, and
+                  independent research — and send me my free report. By ticking
+                  this box, I agree to receive marketing material by email from
+                  Southbank Investment Research. I can unsubscribe at any time.
                 </span>
               </label>
 
@@ -152,7 +176,7 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
                 type="submit"
                 variant="primary"
                 size="lg"
-                disabled={!isValidEmail || status === "submitting"}
+                disabled={!isValidEmail || !optIn || status === "submitting"}
                 className="w-full gold-glow"
               >
                 {status === "submitting" ? "Sending..." : "Send Me The Report →"}
