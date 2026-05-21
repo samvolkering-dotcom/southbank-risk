@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import { motion } from "motion/react";
+import { Check } from "lucide-react";
 import { Button } from "../ui/Button";
 
 interface ShareCardProps {
@@ -65,7 +66,14 @@ export function ShareCard({ shareRef }: ShareCardProps) {
       </p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <Button variant="secondary" onClick={handleCopyLink}>
-          {copied ? "Copied! ✓" : "Copy Link"}
+          {copied ? (
+            <span className="inline-flex items-center gap-1.5">
+              Copied!
+              <Check className="w-4 h-4" aria-hidden />
+            </span>
+          ) : (
+            "Copy Link"
+          )}
         </Button>
         <Button
           variant="secondary"

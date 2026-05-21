@@ -6,7 +6,7 @@ export const archetypes: ArchetypeResult[] = [
     name: "The Guardian",
     scoreRange: [1.0, 2.5],
     color: "#4682B4",
-    emoji: "🛡️",
+    icon: "shield",
     headline: "You protect what matters most.",
     description:
       "You're a careful, deliberate investor who prioritises capital preservation above all else. You understand that sleeping well at night is worth more than chasing every percentage point. In volatile markets, you're the calm voice of reason.",
@@ -28,7 +28,7 @@ export const archetypes: ArchetypeResult[] = [
     name: "The Steady Builder",
     scoreRange: [2.6, 4.0],
     color: "#2BBAB4",
-    emoji: "🧱",
+    icon: "brick-wall",
     headline: "Slow and steady builds real wealth.",
     description:
       "You're a patient, methodical investor who believes in the power of compounding. You don't need excitement from your portfolio — you need reliability. You're happy to let time do the heavy lifting while you focus on living your life.",
@@ -50,7 +50,7 @@ export const archetypes: ArchetypeResult[] = [
     name: "The Balanced Navigator",
     scoreRange: [4.1, 5.5],
     color: "#DAA520",
-    emoji: "⚖️",
+    icon: "scale",
     headline: "You play both sides of the board.",
     description:
       "You have a healthy relationship with risk. You understand that growth requires some discomfort, but you're not reckless about it. You're the investor who reads the research, considers the options, and makes informed decisions.",
@@ -72,7 +72,7 @@ export const archetypes: ArchetypeResult[] = [
     name: "The Calculated Opportunist",
     scoreRange: [5.6, 7.0],
     color: "#E6960C",
-    emoji: "🎯",
+    icon: "target",
     headline: "You see opportunity where others see risk.",
     description:
       "You're a confident, research-driven investor who isn't afraid to back your convictions. You understand that the best opportunities often come with uncertainty, and you've got the stomach to hold through volatility. You invest with intention, not impulse.",
@@ -94,7 +94,7 @@ export const archetypes: ArchetypeResult[] = [
     name: "The Frontier Explorer",
     scoreRange: [7.1, 8.5],
     color: "#E65100",
-    emoji: "🧭",
+    icon: "compass",
     headline: "You venture where most investors won't.",
     description:
       "You're drawn to the edges of the investment universe — emerging markets, innovative sectors, asymmetric opportunities. You accept that some of your bets will fail, because the ones that succeed can be transformative. You're playing a different game than most investors.",
@@ -116,7 +116,7 @@ export const archetypes: ArchetypeResult[] = [
     name: "The Maverick",
     scoreRange: [8.6, 10.0],
     color: "#DC143C",
-    emoji: "🔥",
+    icon: "flame",
     headline: "You play to win, and you know the stakes.",
     description:
       "You're an aggressive, conviction-driven investor who embraces maximum volatility for maximum potential return. You understand that concentrated positions and unconventional assets can both make and lose fortunes. You're not gambling — you've done the work — but you accept that big outcomes require big risks.",

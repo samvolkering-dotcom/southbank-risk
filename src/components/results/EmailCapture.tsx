@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { ArrowRight, Gift, MailCheck } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useAssessment } from "@/hooks/useAssessment";
 
@@ -91,7 +92,7 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="text-5xl mb-3">📬</div>
+            <MailCheck className="w-12 h-12 text-[var(--brand-accent)] mx-auto mb-3" aria-hidden />
             <h3 className="text-2xl font-bold gradient-text mb-2">
               Check your inbox
             </h3>
@@ -114,7 +115,7 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
             exit={{ opacity: 0 }}
           >
             <div className="flex items-start gap-4 mb-5">
-              <div className="text-4xl shrink-0">🎁</div>
+              <Gift className="w-9 h-9 text-[var(--brand-accent)] shrink-0" aria-hidden />
               <div>
                 <span className="inline-block text-xs uppercase tracking-[0.2em] text-[var(--brand-accent)] font-bold mb-1">
                   Your Free Bonus is Ready
@@ -179,7 +180,14 @@ export function EmailCapture({ archetypeId }: EmailCaptureProps) {
                 disabled={!isValidEmail || !optIn || status === "submitting"}
                 className="w-full gold-glow"
               >
-                {status === "submitting" ? "Sending..." : "Send Me The Report →"}
+                {status === "submitting" ? (
+                  "Sending..."
+                ) : (
+                  <span className="inline-flex items-center gap-2">
+                    Send Me The Report
+                    <ArrowRight className="w-5 h-5" aria-hidden />
+                  </span>
+                )}
               </Button>
 
               <p className="text-xs text-[var(--brand-text-muted)] text-center">

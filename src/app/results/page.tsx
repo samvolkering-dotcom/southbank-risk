@@ -4,6 +4,7 @@ import { useRef, useMemo, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
+import { RotateCcw } from "lucide-react";
 import { useAssessment } from "@/hooks/useAssessment";
 import { motion } from "motion/react";
 import { decodeResults } from "@/lib/scoring";
@@ -106,7 +107,12 @@ function ResultsContent() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
         >
-          <Button variant="ghost" onClick={handleRetake}>↻ Retake Assessment</Button>
+          <Button variant="ghost" onClick={handleRetake}>
+            <span className="inline-flex items-center gap-1.5">
+              <RotateCcw className="w-4 h-4" aria-hidden />
+              Retake Assessment
+            </span>
+          </Button>
         </motion.div>
 
         {/* FCA Disclaimer */}

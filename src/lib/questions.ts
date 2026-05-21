@@ -24,7 +24,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Pay off debts and put the rest in a high-interest savings account. Sleep soundly.",
           value: 1,
-          icon: "🏦",
+          icon: "landmark",
         },
         {
           id: "mix-safe",
@@ -32,7 +32,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Keep £35k in cash savings and invest £15k in a diversified fund.",
           value: 4,
-          icon: "⚖️",
+          icon: "scale",
         },
         {
           id: "mix-growth",
@@ -40,7 +40,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Keep 6 months' expenses in cash, invest the rest across shares and funds.",
           value: 7,
-          icon: "📈",
+          icon: "trending-up",
         },
         {
           id: "all-in",
@@ -48,7 +48,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Minimal cash buffer. Put the bulk into growth stocks and higher-risk opportunities.",
           value: 10,
-          icon: "🚀",
+          icon: "rocket",
         },
       ],
     },
@@ -66,7 +66,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Pay off the credit card, the car loan, anything outstanding. Start fresh.",
           value: 1,
-          icon: "💳",
+          icon: "credit-card",
         },
         {
           id: "emergency",
@@ -74,7 +74,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Boost my emergency fund to 6+ months, then maybe invest a small amount.",
           value: 4,
-          icon: "🏠",
+          icon: "home",
         },
         {
           id: "invest-most",
@@ -82,7 +82,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Keep a small buffer and put the rest into a mix of funds and shares.",
           value: 7,
-          icon: "📊",
+          icon: "bar-chart",
         },
         {
           id: "aggressive",
@@ -90,7 +90,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I've been watching some opportunities. This is the capital I've been waiting for.",
           value: 10,
-          icon: "🎯",
+          icon: "target",
         },
       ],
     },
@@ -175,7 +175,7 @@ const questionPool: QuestionSlot[] = [
           label: "Sell everything",
           description: "I can't watch this. Get me out before it gets worse.",
           value: 1,
-          icon: "😰",
+          icon: "frown",
         },
         {
           id: "uneasy",
@@ -183,21 +183,21 @@ const questionPool: QuestionSlot[] = [
           description:
             "I'm worried, but I know selling now locks in the loss.",
           value: 4,
-          icon: "😟",
+          icon: "meh",
         },
         {
           id: "calm",
           label: "This is normal",
           description: "Markets go up and down. I'll ride it out and check back later.",
           value: 7,
-          icon: "😌",
+          icon: "smile",
         },
         {
           id: "excited",
           label: "Time to buy more",
           description: "Everything's on sale! I'm adding to my positions.",
           value: 10,
-          icon: "🤑",
+          icon: "laugh",
         },
       ],
     },
@@ -222,28 +222,28 @@ const questionPool: QuestionSlot[] = [
           label: "I'd sell immediately",
           description: "This feels like 2008 all over again. I need to protect what's left.",
           value: 1,
-          icon: "😰",
+          icon: "frown",
         },
         {
           id: "reduce",
           label: "I'd reduce my exposure",
           description: "Sell some positions and move to safer ground until it blows over.",
           value: 4,
-          icon: "😟",
+          icon: "meh",
         },
         {
           id: "hold",
           label: "I'd hold and wait",
           description: "Panicking never works. I'll leave it alone and reassess in six months.",
           value: 7,
-          icon: "😌",
+          icon: "smile",
         },
         {
           id: "buy",
           label: "I'd be buying aggressively",
           description: "This is exactly when you should be putting money in. Fearful markets create opportunities.",
           value: 10,
-          icon: "🤑",
+          icon: "laugh",
         },
       ],
     },
@@ -264,7 +264,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "\"I've earned 6% every year for a decade. Nothing flashy, but my money's doubled.\"",
           value: 3,
-          icon: "🍷",
+          icon: "wine",
         },
         {
           id: "bold",
@@ -272,7 +272,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "\"I spotted an opportunity early, took a big position, and it paid off 5x in three years.\"",
           value: 9,
-          icon: "🎯",
+          icon: "target",
         },
       ],
     },
@@ -289,7 +289,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "\"Just put it in an ETF and forget about it. You'll thank me in 20 years.\"",
           value: 3,
-          icon: "🌍",
+          icon: "globe",
         },
         {
           id: "picks",
@@ -297,7 +297,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "\"I've been researching three companies I really believe in. Higher risk, but the upside is massive.\"",
           value: 9,
-          icon: "🔬",
+          icon: "microscope",
         },
       ],
     },
@@ -377,28 +377,28 @@ const questionPool: QuestionSlot[] = [
           label: "Sell and go to cash",
           description: "I'll buy back in once things calm down.",
           value: 1,
-          icon: "🏃",
+          icon: "footprints",
         },
         {
           id: "sell-some",
           label: "Sell some, keep some",
           description: "Reduce my exposure but stay partly invested.",
           value: 4,
-          icon: "🤔",
+          icon: "circle-help",
         },
         {
           id: "hold",
           label: "Do nothing",
           description: "I'll check again in a few weeks. No point reacting.",
           value: 7,
-          icon: "🧘",
+          icon: "anchor",
         },
         {
           id: "buy-dip",
           label: "Buy the dip",
           description: "This is a buying opportunity. I'm adding money.",
           value: 10,
-          icon: "💪",
+          icon: "dumbbell",
         },
       ],
     },
@@ -422,28 +422,28 @@ const questionPool: QuestionSlot[] = [
           label: "Sell immediately",
           description: "Cut my losses right now. I can't afford this.",
           value: 1,
-          icon: "🏃",
+          icon: "footprints",
         },
         {
           id: "sell-some",
           label: "Trim my riskiest positions",
           description: "Lighten the load, keep the core holdings.",
           value: 4,
-          icon: "🤔",
+          icon: "circle-help",
         },
         {
           id: "hold",
           label: "Close the app",
           description: "Flash crashes recover. I'll check tomorrow.",
           value: 7,
-          icon: "🧘",
+          icon: "anchor",
         },
         {
           id: "buy-dip",
           label: "Add money",
           description: "Flash crash = flash sale. I'm buying.",
           value: 10,
-          icon: "💪",
+          icon: "dumbbell",
         },
       ],
     },
@@ -459,7 +459,7 @@ const questionPool: QuestionSlot[] = [
       prompt: "How often do you check your investment portfolio?",
       subtitle: "Be honest — we all have habits.",
       iconScaleConfig: {
-        icons: ["📱", "📱", "📱", "📱", "📱"],
+        icons: ["smartphone", "smartphone", "smartphone", "smartphone", "smartphone"],
         labels: [
           "Multiple times a day",
           "Once a day",
@@ -482,7 +482,7 @@ const questionPool: QuestionSlot[] = [
       prompt: "Your broker sends a notification: 'Your portfolio changed significantly today.' What do you do?",
       subtitle: "Pick the response closest to your actual behaviour.",
       iconScaleConfig: {
-        icons: ["📱", "📱", "📱", "📱", "📱"],
+        icons: ["smartphone", "smartphone", "smartphone", "smartphone", "smartphone"],
         labels: [
           "Drop everything and check immediately",
           "Check within the hour",
@@ -513,7 +513,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "The pain of watching your money shrink. You took a chance and it didn't work out.",
           value: 3,
-          icon: "📉",
+          icon: "trending-down",
         },
         {
           id: "missed-out",
@@ -521,7 +521,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "The regret of sitting on the sidelines. You played it safe and missed the rally.",
           value: 9,
-          icon: "😤",
+          icon: "annoyed",
         },
       ],
     },
@@ -538,7 +538,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I should have stayed safe. The loss still stings. I'd rather have my money back than a lesson learned.",
           value: 3,
-          icon: "😔",
+          icon: "frown",
         },
         {
           id: "didnt-act",
@@ -546,7 +546,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I knew it was an opportunity and I hesitated. The money I didn't make haunts me more than any loss.",
           value: 9,
-          icon: "🤦",
+          icon: "annoyed",
         },
       ],
     },
@@ -569,7 +569,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "My pension, savings and investments should cover my needs. No heroics required.",
           value: 1,
-          icon: "✅",
+          icon: "check-circle",
         },
         {
           id: "small-gap",
@@ -577,7 +577,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I need a bit more growth, but nothing dramatic. Steady returns will get me there.",
           value: 4,
-          icon: "📊",
+          icon: "bar-chart",
         },
         {
           id: "meaningful-gap",
@@ -585,7 +585,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I need my investments to work harder. Playing it too safe won't get me where I need to be.",
           value: 7,
-          icon: "⚡",
+          icon: "zap",
         },
         {
           id: "big-gap",
@@ -593,7 +593,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I need substantial growth. Without higher returns, I'll fall well short of my goals.",
           value: 10,
-          icon: "🎯",
+          icon: "target",
         },
       ],
     },
@@ -612,7 +612,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I'm already in a good position. 4% would keep me on track comfortably.",
           value: 1,
-          icon: "✅",
+          icon: "check-circle",
         },
         {
           id: "ok",
@@ -620,7 +620,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I could make it work, but I'd prefer more. Some goals might need adjusting.",
           value: 4,
-          icon: "📊",
+          icon: "bar-chart",
         },
         {
           id: "not-enough",
@@ -628,7 +628,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I need more than 4% to hit my targets. I'd have to rethink my plans.",
           value: 7,
-          icon: "⚡",
+          icon: "zap",
         },
         {
           id: "disaster",
@@ -636,7 +636,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I'm counting on significantly better returns. 4% would leave a serious shortfall.",
           value: 10,
-          icon: "🎯",
+          icon: "target",
         },
       ],
     },
@@ -686,7 +686,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Invest £50,000 and get a guaranteed £65,000 back in 10 years. A sure 30% total return.",
           value: 3,
-          icon: "🔒",
+          icon: "lock",
         },
         {
           id: "variable",
@@ -694,7 +694,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Invest £50,000 with a chance of tripling your money — but you could lose 40% too.",
           value: 9,
-          icon: "🎲",
+          icon: "dices",
         },
       ],
     },
@@ -711,7 +711,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "A 'lifestyling' approach that gradually moves to bonds. You'll likely end up with £280k-£320k.",
           value: 3,
-          icon: "🔒",
+          icon: "lock",
         },
         {
           id: "growth",
@@ -719,7 +719,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Stay 100% in equities the whole time. Could be £180k or £500k — but the average is higher.",
           value: 9,
-          icon: "🎲",
+          icon: "dices",
         },
       ],
     },
@@ -741,7 +741,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Preserving my capital is my top priority. I'd rather earn less than risk losing what I've built.",
           value: 1,
-          icon: "🛡️",
+          icon: "shield",
         },
         {
           id: "steady-growth",
@@ -749,7 +749,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I want reliable growth with manageable ups and downs. Consistency matters most.",
           value: 4,
-          icon: "🌱",
+          icon: "sprout",
         },
         {
           id: "beat-market",
@@ -757,7 +757,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I'm willing to accept volatility for the chance of above-average returns.",
           value: 7,
-          icon: "⚡",
+          icon: "zap",
         },
         {
           id: "max-growth",
@@ -765,7 +765,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "I have a long time horizon and strong nerves. I want the highest possible returns.",
           value: 10,
-          icon: "🔥",
+          icon: "flame",
         },
       ],
     },
@@ -783,7 +783,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Safety-tested, predictable, holds its value. Gets you there without drama.",
           value: 1,
-          icon: "🛡️",
+          icon: "shield",
         },
         {
           id: "bmw",
@@ -791,7 +791,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Quality engineering, good performance, a few premium features. Solid all-rounder.",
           value: 4,
-          icon: "🌱",
+          icon: "sprout",
         },
         {
           id: "porsche",
@@ -799,7 +799,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Thrilling to drive, seriously fast, but you need to know what you're doing.",
           value: 7,
-          icon: "⚡",
+          icon: "zap",
         },
         {
           id: "f1",
@@ -807,7 +807,7 @@ const questionPool: QuestionSlot[] = [
           description:
             "Insanely fast, built to win, could crash spectacularly. Not for Sunday drivers.",
           value: 10,
-          icon: "🔥",
+          icon: "flame",
         },
       ],
     },

@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
+import { ArrowRight, Gift } from "lucide-react";
 import { Button } from "../ui/Button";
 
 export function Hero() {
@@ -56,7 +57,7 @@ export function Hero() {
           transition={{ delay: 0.55, duration: 0.6 }}
         >
           <div className="inline-flex items-center gap-3 px-5 py-3 rounded-2xl border border-[var(--brand-accent)] bg-[var(--brand-accent-dim)]">
-            <span className="text-2xl">🎁</span>
+            <Gift className="w-6 h-6 text-[var(--brand-accent)] shrink-0" aria-hidden />
             <div className="text-left">
               <div className="text-xs uppercase tracking-widest text-[var(--brand-accent)] font-bold">
                 Free Bonus on Completion
@@ -91,7 +92,10 @@ export function Hero() {
         >
           <Link href="/assess">
             <Button variant="primary" size="lg" className="gold-glow text-lg px-10 py-4">
-              I Understand — Let&apos;s Go! →
+              <span className="inline-flex items-center gap-2">
+                I Understand — Let&apos;s Go!
+                <ArrowRight className="w-5 h-5" aria-hidden />
+              </span>
             </Button>
           </Link>
           <p className="text-xs text-[var(--brand-text-muted)] mt-3">

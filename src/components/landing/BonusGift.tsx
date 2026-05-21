@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { Check, Gift } from "lucide-react";
 
 export function BonusGift() {
   return (
@@ -24,8 +25,9 @@ export function BonusGift() {
             </div>
 
             <div>
-              <span className="inline-block text-xs uppercase tracking-[0.2em] text-[var(--brand-accent)] font-bold mb-3">
-                🎁 Free Bonus Report
+              <span className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-[var(--brand-accent)] font-bold mb-3">
+                <Gift className="w-4 h-4" aria-hidden />
+                Free Bonus Report
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-[var(--brand-text-primary)] mb-3 leading-tight">
                 Get <span className="italic">The Road to Financial Freedom</span> — free with your results
@@ -37,15 +39,15 @@ export function BonusGift() {
               </p>
               <ul className="space-y-2 text-sm text-[var(--brand-text-secondary)]">
                 <li className="flex items-start gap-2">
-                  <span className="text-[var(--brand-accent)] mt-0.5">✓</span>
+                  <Check className="w-4 h-4 text-[var(--brand-accent)] mt-0.5 shrink-0" aria-hidden />
                   <span>The five pillars every independent investor needs</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-[var(--brand-accent)] mt-0.5">✓</span>
+                  <Check className="w-4 h-4 text-[var(--brand-accent)] mt-0.5 shrink-0" aria-hidden />
                   <span>How to think about risk, time, and asymmetric upside</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-[var(--brand-accent)] mt-0.5">✓</span>
+                  <Check className="w-4 h-4 text-[var(--brand-accent)] mt-0.5 shrink-0" aria-hidden />
                   <span>A blueprint you can act on this week</span>
                 </li>
               </ul>

@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { QuestionOption } from "@/lib/types";
+import { DataIcon } from "@/lib/icons";
 
 interface ScenarioCardsProps {
   options: QuestionOption[];
@@ -32,7 +33,13 @@ export function ScenarioCards({ options, selected, onSelect }: ScenarioCardsProp
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-start gap-3">
-              <span className="text-2xl mt-0.5">{opt.icon}</span>
+              {opt.icon && (
+                <DataIcon
+                  name={opt.icon}
+                  className="w-7 h-7 mt-0.5 text-[var(--brand-accent)] shrink-0"
+                  aria-hidden
+                />
+              )}
               <div>
                 <p className={`font-semibold mb-1 ${isSelected ? "text-[var(--brand-accent)]" : "text-[var(--brand-text-primary)]"}`}>
                   {opt.label}

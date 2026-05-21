@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
+import { TrendingDown } from "lucide-react";
 import { QuestionOption } from "@/lib/types";
+import { DataIcon } from "@/lib/icons";
 
 interface AnimatedChartReactionProps {
   chartData: { month: string; value: number }[];
@@ -156,7 +158,7 @@ export function AnimatedChartReaction({
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <span className="text-xl">📉</span>
+            <TrendingDown className="w-5 h-5" aria-hidden />
             <span className="text-sm font-medium">
               Portfolio down{" "}
               {Math.round(
@@ -194,7 +196,13 @@ export function AnimatedChartReaction({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
               >
-                <span className="text-2xl">{opt.icon}</span>
+                {opt.icon && (
+                  <DataIcon
+                    name={opt.icon}
+                    className="w-7 h-7 text-[var(--brand-accent)]"
+                    aria-hidden
+                  />
+                )}
                 <p
                   className={`font-medium text-sm mt-2 ${
                     isSelected

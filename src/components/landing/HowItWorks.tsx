@@ -1,28 +1,29 @@
 "use client";
 
 import { motion } from "motion/react";
+import { DataIcon, type IconName } from "@/lib/icons";
 
-const steps = [
+const steps: { number: string; title: string; description: string; icon: IconName }[] = [
   {
     number: "01",
     title: "Answer 12 Interactive Questions",
     description:
       "Not boring tick-boxes. Scenario-based, visual questions that measure how you actually think and feel about investment risk.",
-    icon: "🎯",
+    icon: "target",
   },
   {
     number: "02",
     title: "Get Your 4-Dimension Profile",
     description:
       "We measure four distinct risk dimensions: financial capacity, psychological attitude, behavioural composure, and growth need. Because risk isn't one-dimensional.",
-    icon: "📊",
+    icon: "bar-chart",
   },
   {
     number: "03",
     title: "Discover Your Investor Archetype",
     description:
       "From Guardian to Maverick, see which of six investor archetypes best describes your risk profile — with general insights and ideas to think about.",
-    icon: "🔮",
+    icon: "sparkles",
   },
 ];
 
@@ -49,8 +50,12 @@ export function HowItWorks() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
             >
-              <div className="shrink-0 w-12 h-12 rounded-xl bg-[var(--brand-accent-dim)] flex items-center justify-center text-2xl">
-                {step.icon}
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-[var(--brand-accent-dim)] flex items-center justify-center">
+                <DataIcon
+                  name={step.icon}
+                  className="w-6 h-6 text-[var(--brand-accent)]"
+                  aria-hidden
+                />
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">

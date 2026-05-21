@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { AlertTriangle, CheckCircle2, Lightbulb } from "lucide-react";
 import { ArchetypeResult } from "@/lib/types";
 
 interface InsightsProps {
@@ -31,7 +32,7 @@ export function Insights({ archetype }: InsightsProps) {
           transition={{ delay: 1.0 }}
         >
           <h4 className="font-semibold text-green-400 mb-3 flex items-center gap-2">
-            <span>✅</span> Your Strengths
+            <CheckCircle2 className="w-5 h-5" aria-hidden /> Your Strengths
           </h4>
           <ul className="space-y-2">
             {archetype.strengths.map((s, i) => (
@@ -53,7 +54,7 @@ export function Insights({ archetype }: InsightsProps) {
           transition={{ delay: 1.1 }}
         >
           <h4 className="font-semibold text-amber-400 mb-3 flex items-center gap-2">
-            <span>⚠️</span> Watch Out For
+            <AlertTriangle className="w-5 h-5" aria-hidden /> Watch Out For
           </h4>
           <ul className="space-y-2">
             {archetype.watchOuts.map((w, i) => (
@@ -78,7 +79,7 @@ export function Insights({ archetype }: InsightsProps) {
         transition={{ delay: 1.2 }}
       >
         <h4 className="font-semibold text-[var(--brand-text-primary)] mb-2 flex items-center gap-2">
-          <span>💡</span> Portfolio Considerations
+          <Lightbulb className="w-5 h-5 text-[var(--brand-accent)]" aria-hidden /> Portfolio Considerations
         </h4>
         <p className="text-sm text-[var(--brand-text-secondary)] leading-relaxed">
           {archetype.portfolioHint}

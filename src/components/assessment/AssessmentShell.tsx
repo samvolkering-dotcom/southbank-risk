@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useAssessment } from "@/hooks/useAssessment";
 import { getRandomisedQuestions } from "@/lib/questions";
 import { calculateResults, encodeResults } from "@/lib/scoring";
@@ -183,7 +184,10 @@ export function AssessmentShell() {
             onClick={prevQuestion}
             disabled={currentQuestion === 0}
           >
-            ← Back
+            <span className="inline-flex items-center gap-1.5">
+              <ArrowLeft className="w-4 h-4" aria-hidden />
+              Back
+            </span>
           </Button>
 
           <Button
@@ -192,7 +196,14 @@ export function AssessmentShell() {
             disabled={!hasAnswer}
             size="lg"
           >
-            {currentQuestion === questions.length - 1 ? "See My Results" : "Continue →"}
+            {currentQuestion === questions.length - 1 ? (
+              "See My Results"
+            ) : (
+              <span className="inline-flex items-center gap-1.5">
+                Continue
+                <ArrowRight className="w-4 h-4" aria-hidden />
+              </span>
+            )}
           </Button>
         </div>
       </div>

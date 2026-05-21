@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { AssessmentResult } from "@/lib/types";
+import { DataIcon } from "@/lib/icons";
 import { AnimatedNumber } from "../ui/AnimatedNumber";
 
 interface ProfileCardProps {
@@ -21,14 +22,18 @@ export function ProfileCard({ result }: ProfileCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3, duration: 0.6 }}
     >
-      {/* Emoji */}
       <motion.div
-        className="text-6xl mb-4"
+        className="mb-4 flex justify-center"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
       >
-        {archetype.emoji}
+        <DataIcon
+          name={archetype.icon}
+          className="w-16 h-16"
+          style={{ color: archetype.color }}
+          aria-hidden
+        />
       </motion.div>
 
       {/* Archetype name */}

@@ -1,3 +1,5 @@
+import type { IconName } from "./icons";
+
 export type Dimension = "capacity" | "attitude" | "composure" | "need";
 
 export type InteractionType =
@@ -13,7 +15,7 @@ export interface QuestionOption {
   label: string;
   description: string;
   value: number; // 1.0 - 4.0
-  icon?: string;
+  icon?: IconName;
 }
 
 export interface SliderConfig {
@@ -42,7 +44,7 @@ export interface AllocateConfig {
 }
 
 export interface IconScaleConfig {
-  icons: string[];
+  icons: IconName[];
   labels: string[];
   /** Maps selected index (0-based) to a score 1.0-4.0 */
   indexToScore: (index: number) => number;
@@ -75,7 +77,7 @@ export interface ArchetypeResult {
   name: string;
   scoreRange: [number, number];
   color: string;
-  emoji: string;
+  icon: IconName;
   headline: string;
   description: string;
   strengths: string[];

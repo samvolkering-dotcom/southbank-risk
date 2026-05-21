@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { QuestionOption } from "@/lib/types";
+import { DataIcon } from "@/lib/icons";
 
 interface WouldYouRatherProps {
   options: QuestionOption[];
@@ -36,13 +37,14 @@ export function WouldYouRather({ options, selected, onSelect }: WouldYouRatherPr
             }}
             whileTap={{ scale: 0.97 }}
           >
-            {/* Background icon */}
-            <span className="absolute top-3 right-3 text-4xl opacity-20">
-              {opt.icon}
-            </span>
-
             <div className="relative z-10">
-              <span className="text-3xl mb-3 block">{opt.icon}</span>
+              {opt.icon && (
+                <DataIcon
+                  name={opt.icon}
+                  className="w-9 h-9 mb-3 text-[var(--brand-accent)]"
+                  aria-hidden
+                />
+              )}
               <p
                 className={`font-bold text-lg mb-2 ${
                   isSelected

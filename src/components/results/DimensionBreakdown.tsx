@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
+import type { LucideIcon } from "lucide-react";
+import { Wallet, Brain, Anchor, Target } from "lucide-react";
 import { DimensionScore } from "@/lib/types";
 
 interface DimensionBreakdownProps {
@@ -14,11 +16,11 @@ const dimensionColors: Record<string, string> = {
   need: "#E6960C",
 };
 
-const dimensionIcons: Record<string, string> = {
-  capacity: "💰",
-  attitude: "🧠",
-  composure: "🧘",
-  need: "🎯",
+const dimensionIcons: Record<string, LucideIcon> = {
+  capacity: Wallet,
+  attitude: Brain,
+  composure: Anchor,
+  need: Target,
 };
 
 export function DimensionBreakdown({ dimensions }: DimensionBreakdownProps) {
@@ -36,7 +38,7 @@ export function DimensionBreakdown({ dimensions }: DimensionBreakdownProps) {
       <div className="space-y-6">
         {dimensions.map((d, i) => {
           const color = dimensionColors[d.dimension];
-          const icon = dimensionIcons[d.dimension];
+          const Icon = dimensionIcons[d.dimension];
           const percentage = ((d.score - 1) / 9) * 100;
 
           return (
@@ -48,7 +50,7 @@ export function DimensionBreakdown({ dimensions }: DimensionBreakdownProps) {
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">{icon}</span>
+                  <Icon className="w-5 h-5" style={{ color }} aria-hidden />
                   <span className="font-medium text-[var(--brand-text-primary)]">
                     {d.label}
                   </span>

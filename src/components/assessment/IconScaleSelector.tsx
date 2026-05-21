@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { IconScaleConfig } from "@/lib/types";
+import { DataIcon } from "@/lib/icons";
 
 interface IconScaleSelectorProps {
   config: IconScaleConfig;
@@ -44,12 +45,12 @@ export function IconScaleSelector({
             {/* Frequency indicator — more icons for more frequent checking */}
             <div className="flex gap-0.5 shrink-0">
               {Array.from({ length: config.icons.length - i }).map((_, j) => (
-                <span
+                <DataIcon
                   key={j}
-                  className={`text-lg ${isSelected ? "opacity-100" : "opacity-50"}`}
-                >
-                  {config.icons[i]}
-                </span>
+                  name={config.icons[i]}
+                  className={`w-5 h-5 text-[var(--brand-accent)] ${isSelected ? "opacity-100" : "opacity-50"}`}
+                  aria-hidden
+                />
               ))}
             </div>
 
