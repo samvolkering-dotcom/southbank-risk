@@ -16,6 +16,33 @@ const dimensionLabels: Record<Dimension, string> = {
   need: "Growth Need",
 };
 
+const dimensionBands: Record<Dimension, [string, string, string]> = {
+  capacity: ["Limited", "Moderate", "Substantial"],
+  attitude: ["Risk Averse", "Balanced", "Risk Tolerant"],
+  composure: ["Emotional", "Composed", "Disciplined"],
+  need: ["Surplus", "On Track", "Significant Gap"],
+};
+
+const dimensionDefinitions: Record<Dimension, string> = {
+  capacity:
+    "Your ability to take on investment risk without it derailing your life — driven by your time horizon, savings, debt level, and the stability of your income.",
+  attitude:
+    "Your psychological comfort with investment risk and volatility — how you feel about the prospect of seeing your portfolio fall, independent of whether you can afford it.",
+  composure:
+    "How you actually behave when markets move — your tendency to stick to your plan versus react impulsively to short-term swings.",
+  need:
+    "How much investment growth you need to reach your financial goals — the gap between where you are and where you want to be.",
+};
+
+export function getDimensionBand(dimension: Dimension, score: number): string {
+  const level = score <= 4 ? 0 : score <= 7 ? 1 : 2;
+  return dimensionBands[dimension][level];
+}
+
+export function getDimensionDefinition(dimension: Dimension): string {
+  return dimensionDefinitions[dimension];
+}
+
 function getDimensionInsight(dimension: Dimension, score: number): string {
   const insights: Record<Dimension, Record<string, string>> = {
     capacity: {
