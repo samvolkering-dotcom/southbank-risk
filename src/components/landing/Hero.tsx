@@ -44,9 +44,8 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45, duration: 0.6 }}
         >
-          Discover your true risk profile in under 3 minutes. Not a boring
-          questionnaire — an interactive experience that reveals how you
-          really think about money.
+          Discover your investment risk profile in under 3 minutes and
+          reveals how you really think about money.
         </motion.p>
 
         {/* Bonus gift tease */}
