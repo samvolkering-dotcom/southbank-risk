@@ -1,0 +1,61 @@
+# Southbank Risk
+
+A web app that takes a visitor through a short assessment and returns a personalised investor risk profile — an overall score, four dimension scores, and an archetype.
+
+## Language
+
+**Assessment**:
+The questionnaire flow at `/assess`. Twelve questions today, seven post-shortening (see ADR-0001).
+_Avoid_: Quiz, profile creation, survey.
+
+**Assessment Result**:
+The output the user sees on the results page after completing the assessment. Comprises an overall score, four dimension scores (each with a band and insight), and an archetype.
+_Avoid_: Profile (ambiguous — could mean user account), report, score.
+
+**Dimension**:
+One of four axes the assessment measures: **Capacity**, **Attitude**, **Composure**, **Need**. Each dimension produces a score from 1–10 and a band label. Together they combine (weighted) into the overall score.
+_Avoid_: Factor, trait, category.
+
+**Capacity**:
+The user's *ability* to take investment risk — time horizon, savings, debt. Caps the overall score at `capacity + 1.5`.
+
+**Attitude**:
+The user's *stated* comfort with risk and volatility. Weighted 30% — the heaviest dimension.
+
+**Composure**:
+The user's *behavioural* response to market movement. The Attitude × Composure interaction triggers a penalty when claimed tolerance exceeds demonstrated discipline.
+
+**Need**:
+The user's required investment growth to reach their goals — the gap between current position and target.
+
+**Band**:
+A three-level label per dimension (e.g. Composure's bands are "Emotional / Composed / Disciplined"; Need's are "Surplus / On Track / Significant Gap"). Derived from the dimension score via fixed thresholds (≤4 / 5–7 / ≥8).
+_Avoid_: Tier, level, rating.
+
+**Archetype**:
+One of seven named investor personas (e.g. "The Guardian", "The Frontier Explorer") mapped from the overall score. The headline takeaway on the results page.
+_Avoid_: Persona, type, profile.
+
+**Question Slot**:
+A position in the question sequence that holds one or more *variants*. At session start, one variant per slot is picked randomly so two users completing the assessment back-to-back see different wording.
+
+**Variant**:
+One specific phrasing of a question within a slot (e.g. Composure Slot 1 has the "Monday Morning" and "Flash Crash" variants). Variants within a slot are interchangeable — same dimension, same interaction type, same score mapping.
+
+## Flagged ambiguities
+
+**"Calibration Slot"** (in `questions.ts` comments): The name suggests a special role — e.g. cross-checking other answers — but in scoring it is treated identically to any other Attitude question. The comment is misleading and the slot is just "Attitude Slot 3". When discussing scoring, do not treat Q12 as separate from the rest of Attitude.
+
+## Example dialogue
+
+> **Dev:** The user's profile says they're a Guardian.
+>
+> **PM:** Call it the *assessment result*, not the profile — "profile" gets confused with the email-gated account. The Guardian part is the *archetype*.
+>
+> **Dev:** Right. So the archetype comes from the overall score. What drives the overall score?
+>
+> **PM:** The four *dimensions*, weighted. Capacity 20%, Attitude 30%, Composure 25%, Need 25%. But Capacity also caps the overall — you can't exceed `capacity + 1.5` regardless of how risk-tolerant you say you are.
+>
+> **Dev:** And the "Substantial" label next to the Capacity score on the results page — that's…
+>
+> **PM:** The *band*. Each dimension has its own three-band vocabulary. Substantial / Moderate / Limited for Capacity; Disciplined / Composed / Emotional for Composure, and so on. Don't mix them.

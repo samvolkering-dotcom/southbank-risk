@@ -127,7 +127,7 @@ export function calculateResults(
     dimensions.find((d) => d.dimension === "attitude")?.score ?? 5.5;
   const composureScore =
     dimensions.find((d) => d.dimension === "composure")?.score ?? 5.5;
-  if (attitudeScore >= 7 && composureScore <= 4) {
+  if (attitudeScore >= 7 && composureScore <= 3.5) {
     overall = Math.max(1, overall - 0.8);
   }
 

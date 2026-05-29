@@ -44,6 +44,8 @@ export function DimensionBreakdown({ dimensions }: DimensionBreakdownProps) {
           const color = dimensionColors[d.dimension];
           const Icon = dimensionIcons[d.dimension];
           const percentage = ((d.score - 1) / 9) * 100;
+          // Need rests on a single answer — render as a statement, not a measured score.
+          const isSingleAnswer = d.dimension === "need";
 
           return (
             <motion.div
@@ -70,17 +72,19 @@ export function DimensionBreakdown({ dimensions }: DimensionBreakdownProps) {
                     <Info className="w-4 h-4" aria-hidden />
                   </button>
                 </div>
-                <div className="flex items-baseline gap-2 shrink-0">
-                  <span className="font-bold" style={{ color }}>
-                    {d.score.toFixed(1)}{" "}
-                    <span className="text-xs font-normal text-[var(--brand-text-muted)]">
-                      / 10
+                {!isSingleAnswer && (
+                  <div className="flex items-baseline gap-2 shrink-0">
+                    <span className="font-bold" style={{ color }}>
+                      {d.score.toFixed(1)}{" "}
+                      <span className="text-xs font-normal text-[var(--brand-text-muted)]">
+                        / 10
+                      </span>
                     </span>
-                  </span>
-                  <span className="text-xs uppercase tracking-wider text-[var(--brand-text-secondary)] font-semibold">
-                    {getDimensionBand(d.dimension, d.score)}
-                  </span>
-                </div>
+                    <span className="text-xs uppercase tracking-wider text-[var(--brand-text-secondary)] font-semibold">
+                      {getDimensionBand(d.dimension, d.score)}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* What this measures */}
@@ -104,22 +108,22 @@ export function DimensionBreakdown({ dimensions }: DimensionBreakdownProps) {
                 )}
               </AnimatePresence>
 
-              {/* Bar */}
-              <div className="h-2.5 rounded-full bg-[var(--brand-bg-secondary)] overflow-hidden mb-2">
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{ backgroundColor: color }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${percentage}%` }}
-                  transition={{
-                    delay: 1 + i * 0.15,
-                    duration: 0.8,
-                    ease: "easeOut",
-                  }}
-                />
-              </div>
+              {!isSingleAnswer && (
+                <div className="h-2.5 rounded-full bg-[var(--brand-bg-secondary)] overflow-hidden mb-2">
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ backgroundColor: color }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${percentage}%` }}
+                    transition={{
+                      delay: 1 + i * 0.15,
+                      duration: 0.8,
+                      ease: "easeOut",
+                    }}
+                  />
+                </div>
+              )}
 
-              {/* Insight */}
               <p className="text-sm text-[var(--brand-text-secondary)] leading-relaxed">
                 {d.insight}
               </p>
