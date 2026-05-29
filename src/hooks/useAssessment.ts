@@ -13,6 +13,7 @@ interface AssessmentState {
   prevQuestion: () => void;
   goToQuestion: (index: number) => void;
   markEmailSubmitted: (email: string) => void;
+  markUnlockedViaToken: () => void;
   reset: () => void;
 }
 
@@ -55,6 +56,8 @@ export const useAssessment = create<AssessmentState>()(
 
       markEmailSubmitted: (email) =>
         set({ emailSubmitted: true, submittedEmail: email }),
+
+      markUnlockedViaToken: () => set({ emailSubmitted: true }),
 
       reset: () => {
         set({

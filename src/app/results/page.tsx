@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useCallback } from "react";
+import { useRef, useMemo, useCallback, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
@@ -10,12 +10,13 @@ import { motion } from "motion/react";
 import { decodeResults } from "@/lib/scoring";
 import { getBrand } from "@/lib/brand-config";
 import { Confetti } from "@/components/results/Confetti";
-import { ProfileCard } from "@/components/results/ProfileCard";
+import { ProfileCardHeadline } from "@/components/results/ProfileCardHeadline";
+import { ProfileCardScore } from "@/components/results/ProfileCardScore";
 import { DimensionRadar } from "@/components/results/DimensionRadar";
 import { DimensionBreakdown } from "@/components/results/DimensionBreakdown";
 import { Insights } from "@/components/results/Insights";
 import { ShareCard } from "@/components/results/ShareCard";
-import { EmailCapture } from "@/components/results/EmailCapture";
+import { ResultGate } from "@/components/results/ResultGate";
 import { Button } from "@/components/ui/Button";
 
 function ResultsContent() {
@@ -24,19 +25,38 @@ function ResultsContent() {
   const shareRef = useRef<HTMLDivElement>(null);
   const brand = getBrand();
   const resetAssessment = useAssessment((s) => s.reset);
+  const emailSubmitted = useAssessment((s) => s.emailSubmitted);
+  const markUnlockedViaToken = useAssessment((s) => s.markUnlockedViaToken);
+
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    if (useAssessment.persist.hasHydrated()) setHydrated(true);
+    const unsub = useAssessment.persist.onFinishHydration(() => setHydrated(true));
+    return unsub;
+  }, []);
 
   const handleRetake = useCallback(() => {
     resetAssessment();
     router.push("/");
   }, [resetAssessment, router]);
 
+  const encoded = searchParams.get("r");
   const result = useMemo(() => {
-    const encoded = searchParams.get("r");
     if (!encoded) return null;
     return decodeResults(encoded);
-  }, [searchParams]);
+  }, [encoded]);
 
-  if (!result) {
+  useEffect(() => {
+    if (searchParams.get("unlock") === "1") {
+      markUnlockedViaToken();
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("unlock");
+      const qs = params.toString();
+      router.replace(qs ? `?${qs}` : "?", { scroll: false });
+    }
+  }, [searchParams, markUnlockedViaToken, router]);
+
+  if (!result || !encoded) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
         <h1 className="text-2xl font-bold text-[var(--brand-text-primary)] mb-4">
@@ -54,58 +74,70 @@ function ResultsContent() {
     );
   }
 
+  const unlocked = hydrated && emailSubmitted;
+
   return (
     <div className="min-h-screen bg-grid">
       <Confetti />
 
       <div className="max-w-3xl mx-auto px-4 py-8 sm:py-12 space-y-6">
-        {/* Shareable card area */}
         <div ref={shareRef} className="space-y-6">
-          <ProfileCard result={result} />
-          <DimensionRadar
-            dimensions={result.dimensions}
-            color={result.archetype.color}
-          />
+          <ProfileCardHeadline result={result} />
+          {unlocked && (
+            <>
+              <ProfileCardScore result={result} />
+              <DimensionRadar
+                dimensions={result.dimensions}
+                color={result.archetype.color}
+              />
+            </>
+          )}
         </div>
 
-        <DimensionBreakdown dimensions={result.dimensions} />
-        <Insights archetype={result.archetype} />
+        {hydrated && !emailSubmitted && (
+          <ResultGate
+            archetypeId={result.archetype.id}
+            encodedResult={encoded}
+          />
+        )}
 
-        {/* Email capture for free bonus report */}
-        <EmailCapture archetypeId={result.archetype.id} />
+        {unlocked && (
+          <>
+            <DimensionBreakdown dimensions={result.dimensions} />
+            <Insights archetype={result.archetype} />
 
-        {/* CTA */}
-        <motion.div
-          className="glass-card rounded-3xl p-6 sm:p-8 text-center border border-[var(--brand-accent)]"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3 }}
-        >
-          <h3 className="text-xl font-bold gradient-text mb-2">
-            {brand.cta.resultsHeadline}
-          </h3>
-          <p className="text-sm text-[var(--brand-text-secondary)] mb-4 max-w-md mx-auto">
-            {brand.cta.resultsBody}
-          </p>
-          <a
-            href={brand.cta.buttonUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button variant="primary" size="lg">
-              {brand.cta.buttonText}
-            </Button>
-          </a>
-        </motion.div>
+            <motion.div
+              className="glass-card rounded-3xl p-6 sm:p-8 text-center border border-[var(--brand-accent)]"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <h3 className="text-xl font-bold gradient-text mb-2">
+                {brand.cta.resultsHeadline}
+              </h3>
+              <p className="text-sm text-[var(--brand-text-secondary)] mb-4 max-w-md mx-auto">
+                {brand.cta.resultsBody}
+              </p>
+              <a
+                href={brand.cta.buttonUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button variant="primary" size="lg">
+                  {brand.cta.buttonText}
+                </Button>
+              </a>
+            </motion.div>
 
-        <ShareCard shareRef={shareRef} />
+            <ShareCard shareRef={shareRef} />
+          </>
+        )}
 
-        {/* Retake */}
         <motion.div
           className="text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
+          transition={{ delay: 0.5 }}
         >
           <Button variant="ghost" onClick={handleRetake}>
             <span className="inline-flex items-center gap-1.5">
@@ -115,12 +147,11 @@ function ResultsContent() {
           </Button>
         </motion.div>
 
-        {/* FCA Disclaimer */}
         <motion.div
           className="text-center pt-8 pb-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.6 }}
+          transition={{ delay: 0.6 }}
         >
           <div className="max-w-xl mx-auto">
             <p className="text-xs text-[var(--brand-text-muted)] leading-relaxed">

@@ -1,0 +1,24 @@
+# Gate assessment results behind email entry
+
+To convert the assessment from a free-standing tool into a lead-capture surface, the `/results` page now hides the substantive result (radar, dimension breakdown, insights, share card, CTA) behind an email-entry form. Only the archetype name and a one-line headline are visible above the gate, so the completion payoff isn't lost. On submit, the existing `/api/subscribe` flow tags the lead in the configured ESP (Mailchimp / ConvertKit / Beehiiv), which fires a welcome email containing both the existing Road to Financial Freedom bonus PDF and a personalised "View your results" link back to `/results?r=…&unlock=1`. The gate is enforced by the existing localStorage `emailSubmitted` flag; same-device returning users skip it, and the `?unlock=1` token bypasses it on first arrival from the welcome email so a legitimate recipient isn't re-prompted on a new device. The token is not authentication — the encoded result is already in the URL — purely a convenience flag.
+
+## Considered options
+
+1. **Email and Investor's Daily opt-in both mandatory.** Mirrors the current bonus-PDF flow's hard requirement. Rejected: forcing a marketing-consent tick as the price of seeing one's own quiz result is a meaningfully darker pattern than the current "tick for a bonus" exchange, and sits poorly on an FCA-adjacent surface. Email is now mandatory; the Investor's Daily tick is optional. Receipt of the welcome email (with results link + RTFF) does not depend on it.
+
+2. **Hard wall — nothing visible before submit.** Replaces the whole page with the email form. Rejected: the user has just spent five minutes on the assessment; denying them even the archetype reveal risks high bounce. Showing the archetype name preserves the emotional payoff while still gating the substantive analysis.
+
+3. **Personalised PDF via a transactional sender (SendGrid / Postmark / Mandrill).** Rejected as scope creep: the existing ESPs are list-management services and can't easily attach per-recipient PDFs, but the personalised content is the *results page*, which is already self-contained at `/results?r=…`. A static RTFF PDF via the existing welcome-email flow + a link to the personalised page covers the brief without a new email provider, new secrets, or a Node-side PDF renderer.
+
+4. **Server-side claim record (DB) for every `/results` load.** Rejected: requires a database and a new endpoint to record "this encoded result has been claimed by email X". The gate's purpose is friction-for-leads, not auth or privacy — a per-device localStorage flag is sufficient.
+
+5. **Unlock-anyway on `/api/subscribe` failure.** Rejected: this is now the team's primary lead-capture moment for assessment-completers (previously it was a side-bonus). Silently dropping leads on ESP errors defeats the gate's purpose. Failure keeps the gate up, surfaces the error, and lets the user retry — same pattern as the current `EmailCapture`.
+
+## Consequences
+
+- **Pre-checked Investor's Daily opt-in reverses a previously documented stance.** `EmailCapture.tsx:18` currently carries the comment `// Default OFF — user must actively consent to Investor's Daily to receive the report.` The new gate flips the default to ticked. Under UK PECR and GDPR, pre-ticked boxes are typically not valid marketing consent (EDPB guidance requires a "clear affirmative action"). The team has chosen this stance knowingly; legal sign-off should be confirmed and a reversal back to default-off is a one-line change.
+- **`/api/subscribe` must forward the encoded result to the ESP as a merge / custom field** so the welcome-email template can interpolate the per-recipient `/results?r={{RESULT}}&unlock=1` URL. Each provider needs the corresponding merge tag (Mailchimp `RESULT`, ConvertKit field, Beehiiv custom field) configured on the ESP side, in addition to the existing `ARCHETYPE`.
+- **The gate is the only lead-capture surface for assessment-completers.** ESP availability now affects the user's primary experience, not just a bonus. A retry loop on `/api/subscribe` failure is the only safety net.
+- **Shared `/results?r=…` URLs without `?unlock=1` show the gate on devices without the localStorage flag.** This is intentional — sharing the URL is a viral lead path. The recipient sees the archetype, enters their email, gets their own welcome email.
+- **The `?unlock=1` token is not authentication.** Anyone who guesses or strips it bypasses the gate, but the `?r=…` payload is already self-contained in the URL, so there's no privacy boundary to defend. Do not let future work treat `unlock` as a security mechanism.
+- **Completion-bounce rate at the gate is the post-launch metric to watch.** If it spikes, the archetype headline (the only thing visible above the gate) is the dial to turn before relaxing the gate itself.

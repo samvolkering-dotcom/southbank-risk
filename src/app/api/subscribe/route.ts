@@ -5,6 +5,7 @@ interface SubscribeBody {
   optInDaily?: boolean;
   archetype?: string;
   source?: string;
+  encodedResult?: string;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,6 +22,7 @@ export async function POST(req: Request) {
   const optInDaily = Boolean(body.optInDaily);
   const archetype = (body.archetype ?? "").slice(0, 64);
   const source = (body.source ?? "risk-assessor").slice(0, 64);
+  const encodedResult = (body.encodedResult ?? "").slice(0, 2048);
 
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Please enter a valid email" }, { status: 400 });
@@ -30,13 +32,13 @@ export async function POST(req: Request) {
 
   try {
     if (provider === "mailchimp") {
-      await sendToMailchimp({ email, archetype, source });
+      await sendToMailchimp({ email, archetype, source, encodedResult });
     } else if (provider === "convertkit") {
-      await sendToConvertKit({ email, archetype, source });
+      await sendToConvertKit({ email, archetype, source, encodedResult });
     } else if (provider === "beehiiv") {
-      await sendToBeehiiv({ email, archetype, source });
+      await sendToBeehiiv({ email, archetype, source, encodedResult });
     } else if (provider === "webhook") {
-      await sendToWebhook({ email, archetype, source });
+      await sendToWebhook({ email, archetype, source, encodedResult });
     } else {
       // No provider configured yet — log so deploys don't lose leads silently.
       console.log("[subscribe] (no provider configured)", {
@@ -44,6 +46,7 @@ export async function POST(req: Request) {
         optInDaily,
         archetype,
         source,
+        encodedResult,
         at: new Date().toISOString(),
       });
     }
@@ -71,9 +74,10 @@ interface ProviderArgs {
   email: string;
   archetype: string;
   source: string;
+  encodedResult: string;
 }
 
-async function sendToMailchimp({ email, archetype, source }: ProviderArgs) {
+async function sendToMailchimp({ email, archetype, source, encodedResult }: ProviderArgs) {
   const apiKey = process.env.MAILCHIMP_API_KEY;
   const listId = process.env.MAILCHIMP_LIST_ID;
   const reportTag = process.env.MAILCHIMP_REPORT_TAG ?? "road-to-financial-freedom";
@@ -94,7 +98,7 @@ async function sendToMailchimp({ email, archetype, source }: ProviderArgs) {
       email_address: email,
       status: "subscribed",
       tags,
-      merge_fields: { ARCHETYPE: archetype },
+      merge_fields: { ARCHETYPE: archetype, RESULT: encodedResult },
     }),
   });
 
@@ -104,7 +108,7 @@ async function sendToMailchimp({ email, archetype, source }: ProviderArgs) {
   }
 }
 
-async function sendToConvertKit({ email, archetype, source }: ProviderArgs) {
+async function sendToConvertKit({ email, archetype, source, encodedResult }: ProviderArgs) {
   const apiKey = process.env.CONVERTKIT_API_KEY;
   const reportFormId = process.env.CONVERTKIT_REPORT_FORM_ID;
   if (!apiKey || !reportFormId) throw new Error("ConvertKit env vars missing");
@@ -115,14 +119,14 @@ async function sendToConvertKit({ email, archetype, source }: ProviderArgs) {
     body: JSON.stringify({
       api_key: apiKey,
       email,
-      fields: { archetype, source },
+      fields: { archetype, source, result: encodedResult },
     }),
   });
 
   if (!res.ok) throw new Error(`ConvertKit ${res.status}: ${await res.text()}`);
 }
 
-async function sendToBeehiiv({ email, archetype, source }: ProviderArgs) {
+async function sendToBeehiiv({ email, archetype, source, encodedResult }: ProviderArgs) {
   const apiKey = process.env.BEEHIIV_API_KEY;
   const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
   if (!apiKey || !publicationId) throw new Error("Beehiiv env vars missing");
@@ -142,6 +146,7 @@ async function sendToBeehiiv({ email, archetype, source }: ProviderArgs) {
         utm_source: source,
         custom_fields: [
           { name: "archetype", value: archetype },
+          { name: "result", value: encodedResult },
         ],
       }),
     }
